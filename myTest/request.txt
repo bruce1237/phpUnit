@@ -1,0 +1,72 @@
+Array
+(
+    [0] => Array
+        (
+            [0] => Array
+                (
+                    [getContractRoomTypeID] => 78337
+                )
+
+            [1] => Array
+                (
+                    [getContractRoomTypeID] => 12669
+                )
+
+            [2] => Array
+                (
+                    [getContractRoomTypeID] => 44062
+                )
+
+            [3] => Array
+                (
+                    [getContractRoomTypeID] => 33821
+                )
+
+            [4] => Array
+                (
+                    [getContractRoomTypeID] => 67447
+                )
+
+            [5] => Array
+                (
+                    [getContractRoomTypeID] => 77853
+                )
+
+            [6] => Array
+                (
+                    [getContractRoomTypeID] => 22331
+                )
+
+            [7] => Array
+                (
+                    [getContractRoomTypeID] => 38601
+                )
+
+            [8] => Array
+                (
+                    [getContractRoomTypeID] => 73467
+                )
+
+            [9] => Array
+                (
+                    [getContractRoomTypeID] => 12306
+                )
+
+            [10] => Array
+                (
+                    [getContractRoomTypeID] => 62573
+                )
+
+            [11] => Array
+                (
+                    [getContractRoomTypeID] => 80146
+                )
+
+            [12] => Array
+                (
+                    [getContractRoomTypeID] => 67100
+                )
+
+        )
+
+)

@@ -1,0 +1,16 @@
+Array
+(
+    [78337] => getContractRoomTypeID
+    [12669] => getContractRoomTypeID
+    [44062] => getContractRoomTypeID
+    [33821] => getContractRoomTypeID
+    [67447] => getContractRoomTypeID
+    [77853] => getContractRoomTypeID
+    [22331] => getContractRoomTypeID
+    [38601] => getContractRoomTypeID
+    [73467] => getContractRoomTypeID
+    [12306] => getContractRoomTypeID
+    [62573] => getContractRoomTypeID
+    [80146] => getContractRoomTypeID
+    [67100] => getContractRoomTypeID
+)
