@@ -3,10 +3,11 @@
 use myTest\myRoomFilter;
 use PHPUnit\Framework\TestCase;
 include "../autoload.php";
+
 class myRoomFilterTest extends TestCase
 {
 
-    public function testFilter()
+    public function testFilter ()
     {
         $resultArray  = $this->makeResultArray();
         $requestArray = $this->makeRequestArray($resultArray);
