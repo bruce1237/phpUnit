@@ -2,7 +2,10 @@
 
 use myTest\myRoomFilter;
 use PHPUnit\Framework\TestCase;
+
 include "../autoload.php";
+
+
 
 class myRoomFilterTest extends TestCase
 {
@@ -54,7 +57,7 @@ class myRoomFilterTest extends TestCase
     {
         $requestArray = array();
         $numOfRequest = mt_rand(2, 4);
-        $numOfRequest = 1;
+        // $numOfRequest = 1;
         
 
         for ($i = 0; $i < $numOfRequest; $i++) {
