@@ -19,9 +19,9 @@ class myRoomFilterTest extends TestCase
         file_put_contents('result.txt', print_r($resultArray,true));
         file_put_contents('request.txt', print_r($requestArray,true));
         
-        $myRoomFilter = new myRoomFilter();
-    
+        
         $timeStart = microtime(true);
+        $myRoomFilter = new myRoomFilter();
         $filterResult = $myRoomFilter->filter($requestArray);
         $timer = (microtime(true)-$timeStart)*1000;
         file_put_contents('timer.txt',$timer."\r\n",FILE_APPEND);
@@ -40,11 +40,10 @@ class myRoomFilterTest extends TestCase
 
     private function makeResultArray()
     {
-        // $size = mt_rand(5, 20);
-        $size = mt_rand(5, 20);
+        $totalRoomFound = mt_rand(5, 20); // how many rooms 
         $resultArray = array();
-        for ($i = 0; $i < $size; $i++) {
-            $room = mt_rand(10000, 99999);
+        for ($i = 0; $i < $totalRoomFound; $i++) {
+            $room = mt_rand(50, 100);
             $resultArray[$room] = 'getContractRoomTypeID';
         }
 
@@ -62,8 +61,8 @@ class myRoomFilterTest extends TestCase
 
         for ($i = 0; $i < $numOfRequest; $i++) {
             $requestArray[$i] = array();
-            // $numofRooms = mt_rand(10, 99);
-            $numofRooms = mt_rand(2, 5);
+            $numofRooms = mt_rand(50, 99);
+            // $numofRooms = mt_rand(100, 999);
             $insert = (int) $numofRooms / 2;
             $insert = 1;
 
