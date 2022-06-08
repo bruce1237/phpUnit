@@ -1,4 +1,10 @@
 {
+    "autoload": {
+        "psr-4": {
+            "test\\": "test/",
+            "app\\": "app/"
+        }
+    },
     "require": {
         "phpunit/phpunit": "^9.5"
     }
