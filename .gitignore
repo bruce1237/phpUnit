@@ -1,12 +1,1 @@
-/vendor
-myTest/filterresult.txt
-request.txt
-result.txt
-myTest/timer.txt
-myTest/request.txt
-myTest/result.txt
-/myTest/timer.txt
-/myTest/filterresult.txt
-/myTest/request.txt
-/myTest/result.txt
-.vscode/launch.json
+/vendor/
