@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-final class ArrayWeakComparisonTest extends TestCase
+final class assertEquals extends TestCase
 {
     public function testEquality(): void
     {
