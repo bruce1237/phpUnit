@@ -6,6 +6,6 @@
         </include>
     </coverage>
     <testsuite name="unit-tests">
-        <directory>test</directory>
+        <directory>test/</directory>
     </testsuite>
 </phpunit>
