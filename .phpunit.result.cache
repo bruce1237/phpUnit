@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Warning":6},"times":{"bo\\test\\InterfaceRandomNumberGeneratorTest::testABC":0.031,"bo\\test\\QueueTest::testIsEmpty":0.001,"bo\\test\\QueueTest::testNonEmptyQueue":0,"bo\\test\\QueueTest::testSize":0,"bo\\test\\QueueTest::testExceptionThrow":0.001,"cacheTest::testGetValue":0.003,"cacheTest::testSetMulti":0.002,"Warning":0}}
