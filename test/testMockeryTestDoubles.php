@@ -156,14 +156,14 @@ var_dump($spyResult); //null
 
 class Foo
 {
-    function foo()
-    {
-        return 123;
-    }
-    function bar()
-    {
-        return $this->foo();
-    }
+function foo()
+{
+return 123;
+}
+function bar()
+{
+return $this->foo();
+}
 }
 $foo = mock(Foo::class)->makePartial();
 $foo->foo(); //int(123);
@@ -183,14 +183,14 @@ $foo->bar(); //int(456);
 
 class Foo
 {
-    function foo()
-    {
-        return 123;
-    }
-    function bar()
-    {
-        return $this->foo();
-    }
+function foo()
+{
+return 123;
+}
+function bar()
+{
+return $this->foo();
+}
 }
 
 $foo = mock("Foo[foo]");
@@ -210,14 +210,14 @@ $foo->bar(); //int(456)
 
 class Foo
 {
-    function foo()
-    {
-        return 123;
-    }
-    function bar()
-    {
-        return $this->foo();
-    }
+function foo()
+{
+return 123;
+}
+function bar()
+{
+return $this->foo();
+}
 }
 $foo = mock("Foo[foo]");
 $foo->foo(); //int(123)
@@ -373,8 +373,8 @@ $mock->shouldReceive('name_of_method');
  */
 $mock = \Mockery::mock('MyClass');
 $mock->shouldReceive([
-    'name_of_method_1'=> 'return value1',
-    'name_of_method-2'=>'return value 2',
+'name_of_method_1'=> 'return value1',
+'name_of_method-2'=>'return value 2',
 ]);
 
 // there's also a shorthand way of setting up method call expectations and their return values:
@@ -408,15 +408,15 @@ $mock->shouldReceive('name_of_method')->withArgs([$arg1, $arg2, ...]);
  * when it is called with these exact arguments
  */
 
- 
+
 
 // Create a mock object
 $mock = \Mockery::mock(MyClass::class);
 
 // Set an expectation using `any()` for a method with any argument
 $mock->shouldReceive('someMethod')
-     ->with(Mockery::any())
-     ->andReturn('Mocked result');
+->with(Mockery::any())
+->andReturn('Mocked result');
 
 // Invoke the method on the mock object
 $result = $mock->someMethod('value');
@@ -425,9 +425,9 @@ $result = $mock->someMethod('value');
 echo $result; // Output: "Mocked result"
 
 
- $mock = \Mockery::mock('MyClass');
- $mock->shouldReceive('foo')->with('Hello');
- $mock->foo('Goodbye'); // throw a NoMatchingExpectationException
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('foo')->with('Hello');
+$mock->foo('Goodbye'); // throw a NoMatchingExpectationException
 // this allows for setting up differing expectations based on the arguments provided to expected calls.
 
 // Argument matching with closures
@@ -436,8 +436,8 @@ echo $result; // Output: "Mocked result"
  * all passed arguments at once;
  */
 
- $mock = \Mockery::mock('MyClass');
- $mock->shouldReceive('name_of_method')->withArgus(closure);
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->withArgus(closure);
 
 /**
  * The given closure receives all the arguments passed in the call to expected method. 
@@ -445,10 +445,10 @@ echo $result; // Output: "Mocked result"
  */  
 $mock = \Mockery::mock('MyClass');
 $mock->shouldReceive('foo')->withArgs(function ($arg)){
-    if($arg %2 == 0){
-        return true;
-    }
-    return false;
+if($arg %2 == 0){
+return true;
+}
+return false;
 });
 $mock->foo(4); //matches the expectation
 $mock->foo(3); // throws a NoMatching ExpectationException
@@ -469,7 +469,7 @@ $mock->shouldReceive('name_of_method')
 
 $mock = \Mockery::mock('MyClass');
 $mock->shouldReceive('foo')
-    ->withSomeOfArgs(1,2);
+->withSomeOfArgs(1,2);
 
 $mock->foo(1,2,3); //matches the expectation
 $mock->foo(3,2,1); //matches the expectation (passed order doesn't matter)
@@ -488,8 +488,8 @@ $mock->shouldReceive('name_of_method')->withAnyArgs();
  * we can declare that the expectation matches method calls with zero arguments
  */
 
- $mock = \Mockery::mock('MyClass');
- $mock->shouldReceive('name_of_method')->withNoArgs();
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->withNoArgs();
 
 //  Declaring return value Expectations
 /**
@@ -507,8 +507,8 @@ $mock->shouldReceive('name_of_method')->andReturn($value);
  * we tell mockery what value to return on every subsequent call to the method
  */
 
- $mock = \Mockery::mock('MyClass');
- $mock->shouldReceive('name_of_method')->andReturn($value1, $value2, ...);
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->andReturn($value1, $value2, ...);
 // the first call will return $vlue1 and the second call will return $value2....
 
 /**
@@ -527,8 +527,8 @@ $mock->foo(); // int(3)
  * same can be achieved using the alternative syntax
  */
 
- $mock = \Mockery::mock('MyClass');
- $mock->shouldReceive('name_of_method')->andReturnValues([$value1, $value2, ...]);
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->andReturnValues([$value1, $value2, ...]);
 
 /**
  * it accpets a simple array instead of a list of parameters. the order of return is determined by 
@@ -550,37 +550,37 @@ $mock->shouldReceive('name_of_method')->andReturn([null]);
  * more closure
  */
 
- $mock = \Mockery::mock('MyClass');
- $mock->shouldReceive('name_of_method')->andReturnUsing(closure, ...);
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->andReturnUsing(closure, ...);
 
- 
- public function testR(){
-    $mock = \Mockery::mock(MyClass::class);
-    $mock->shouldReceive('someMethod')
-         ->andReturnUsing(
-             function ($arg) {
-                 if ($arg > 0) {
-                     return 'Positive';
-                 } else {
-                     return 'Negative';
-                 }
-             },
-             function ($arg) {
-                 return $arg * 2;
-             },
-             function () {
-                 return 'Fallback';
-             }
-         );
-    
-    echo $result1 = $mock->someMethod(5);   // Returns "Positive"
-    echo $result2 = $mock->someMethod(-2);  // Returns "-4"
-    echo $result3 = $mock->someMethod(10);  // Returns "Fallback"
-    echo $result4 = $mock->someMethod(0);   // Returns "Fallback"
-    $this->assertSame('Positive', $result1);
-    $this->assertSame(-4, $result2);
-    $this->assertSame('Fallback', $result3);
-    $this->assertSame('Fallback', $result4);
+
+public function testR(){
+$mock = \Mockery::mock(MyClass::class);
+$mock->shouldReceive('someMethod')
+    ->andReturnUsing(
+        function ($arg) {
+            if ($arg > 0) {
+                return 'Positive';
+            } else {
+                return 'Negative';
+            }
+        },
+        function ($arg) {
+            return $arg * 2;
+        },
+        function () {
+            return 'Fallback';
+        }
+    );
+
+echo $result1 = $mock->someMethod(5);   // Returns "Positive"
+echo $result2 = $mock->someMethod(-2);  // Returns "-4"
+echo $result3 = $mock->someMethod(10);  // Returns "Fallback"
+echo $result4 = $mock->someMethod(0);   // Returns "Fallback"
+$this->assertSame('Positive', $result1);
+$this->assertSame(-4, $result2);
+$this->assertSame('Fallback', $result3);
+$this->assertSame('Fallback', $result4);
 
 
 
@@ -605,6 +605,138 @@ $mock->shouldReceive('name_of_method')->andReturnSelf();
 
 
 // Throwing Exceptions
+/**
+ * we can tell the method of mock objects to throw exception;
+ */
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->andThrow(new \Exception);
+
+/**
+ * it will throw the given exception object wehen called
+ * 
+ * rather an object, we can ass in the exception class, message and or
+ * code to use when throwing an exception from the mocked method
+ */
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->andThrow('exception_name','message', 123456);
+
+// Setting Public Properties
+/**
+ * used with an expectation so that when a matching method is called,
+ * we can cause a mock object's public property to be set to a specified value, by suing andSet() or set()
+ */
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->andSet($property, $value);
+// or 
+$mock->shouldReceive('name_of_method')->set($property, $value);
+
+/**
+ * In cases where  we want to call the real method of the class that was mocked
+ * and return its result, the passthru() method tells the expectation to bypass a return queue;
+ */
+passthru()
+/**
+ * it allows expectation matching and call count validation to be applied against real methods while still
+ * calling the real class method with the expected arguments
+ */
+class MyClass {
+public function doSomething() {
+// 这里有一些复杂的逻辑
+return '结果';
+}
+}
+
+$mock = \Mockery::mock(MyClass::class);
+$mock->shouldReceive('doSomething')
+->passthru();
+
+$result = $mock->doSomething();
+echo $result; // 输出：结果
+
+/**
+ * 在上面的示例中，我们有一个MyClass类，其中包含一个doSomething()方法。我们使用Mockery创建了MyClass的一个模拟对象。
+ * 然后，我们使用shouldReceive()和passthru()方法设置了期望。这样可以调用实际的doSomething()方法，并返回实际的结果。
+ * 通过使用passthru()，期望仍然进行匹配和调用次数验证，但会执行实际的方法。这在你想要测试实际方法的行为，同时仍然对模拟对象进行控制时非常有用。
+ * 请注意，passthru()仅适用于部分模拟，其中某些方法被模拟，而其他方法允许在实际对象上执行。
+ */
 
 
+//  Declaring call count expectations
+/**
+ * besides setting expectations on the arguments of the method calls, and the return values of those same calls, 
+ * we can set expectation on how many times should any method be called.
+ * 
+ * when a call count expectation is not met a \Mockery\Expectation\InvalidCountException will be thrown
+ * 
+ * it is absolutely required to call \Mockery::close() at the end of our tests for example in the tearDown() method of phpUnit,
+ * otherwise Mockery will not verify the calls made against our mock objects 
+ * 
+ * we can declare that the expected method may be called zero or more times
+ * 
+ */
 
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->zeroOrMoreTimes();
+
+/**
+ * this is the default for all methods unless otherwise set
+* to tell Mockery to expect an exact number of calls to a method, we can use the following
+*/
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->times($n);
+// where $n is the number of times the method should be called
+
+/**
+ * a couple of most common cases got their shorthand methods
+ * to declare that the expected method must be called one time only ->once(); ->twice(); ->never();
+ */
+
+//  call count modifiers
+/**
+ * the call count expectations can have modifiers set
+ * 
+ * if we want to tell mockery the minimum number of times a method should be called, we use atLeast();
+ */
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->atLeast()->times(3);
+
+/**
+ * atLeast()->times(3)  means the call must be called at least three times(given matching method args) but never less than three times
+ * 
+ * similary, we can tell Mockery the maximum number of times a method should be called, using atMost();
+ */
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->atMost()->times(3);
+
+/**
+ * atMost()->times(3) means the call must be called no m ore than three times. if the method gets no calls at all, the expectation will still be met
+ * we can also set a range of call counts using between()
+*/
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->between($min, $max);
+
+/**
+ * this is actually identical to using atLeast()->times($min)->atMost()->times($max)
+ * but is provided as a shorthand. it may be followed by a times() call with no parameter to preserve the APIs natural language readability
+ */
+
+
+ //  Multiple calls with different Expectations
+
+/**
+ * if a method is expected to get called multiple times with different arugments and/or return values we can simply repeat
+ * the expectations. the same of course also works if we expect multiple calls to different methods
+ */
+$mock = \Mockery::mock('MyClass');
+// expectations  for the first call
+$mock->shouldReceive('name_of_method')->once()->with('arg1')->andReturn($value1)
+// second onwards call to the same method
+    ->shoudReceive('name_of_method')->once()->with('arg2')->andReturn($value2)
+    ->shouldReceive('name_of_method')->once()->with('arg3')->andReturn($value3);
+
+// Expectation Declaration Utilities
