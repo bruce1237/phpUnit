@@ -350,7 +350,261 @@ $mock = \Mockery::mock('MyClass', 'MyInterface', [$constructorArg1, $constructor
 //  Expectation Declarations
 /**
  * in order for our expectations to work we must call Mockery::close(), preferably in a callback
- * method such as tearDown or _after(depending on whenther or not we're integrating mockery with another framework)
+ * method such as tearDown or _after(depending on whether or not we're integrating mockery with another framework)
  * this static call cleans up the mockery container used by the current test, and run any verification tasks needed for our expectations.
  * 
+ * once we have created a mock object, we'll often want to start defining how exactly it should behave 
+ * and how it should be called. this is where the mockery expectation declarations take over.
  */
+
+
+//  Delcaring method call expectations
+/**
+ * to tell our test double to expect a call for a method with a given name, we use the
+ * shouldReceive method
+ */
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method');
+
+/**
+ * this is the starting expectation upon which all other expectations and constraints are appended
+ * we can decare more than one method call to be expected
+ */
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive([
+    'name_of_method_1'=> 'return value1',
+    'name_of_method-2'=>'return value 2',
+]);
+
+// there's also a shorthand way of setting up method call expectations and their return values:
+$mock = \Mockery::mock('MyClass', ['name_of_method_1'=> 'return value 1', 'name_of_method_2'=>'return value 2']);
+
+// all of these will adopt any additional chained expectations or constraints
+// we can declare that a test double should not expect a call to the given method name
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldNotReceive('name_of_method');
+// this method is a convenience method for calling shouldReceive()->never()
+
+// Declaring method argument expectations
+
+/**
+ * for every method we declare expectation ofr, we can add constraints that the defined expectations
+ * apply only to the method calls that match the expect ed argument list:
+ */
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->with($arg1, $arg2, ...);
+// or
+$mock->shouldReceive('name_of_method')->withArgs([$arg1, $arg2, ...]);
+
+/**
+ * we can add a lot more flexibility to argument matching using the built in matcher classes
+ * for example, \Mockery::any() matches any argument passed to that position in the with() parameter list.
+ * Mockery also allows hamcrest library matchers
+ * for example, the hamcrest function anything() is equivlent to \Mockery::any()
+ * 
+ * it's important to note that this means all expectations attached only apply to the given method
+ * when it is called with these exact arguments
+ */
+
+ 
+
+// Create a mock object
+$mock = \Mockery::mock(MyClass::class);
+
+// Set an expectation using `any()` for a method with any argument
+$mock->shouldReceive('someMethod')
+     ->with(Mockery::any())
+     ->andReturn('Mocked result');
+
+// Invoke the method on the mock object
+$result = $mock->someMethod('value');
+
+// Assert the result
+echo $result; // Output: "Mocked result"
+
+
+ $mock = \Mockery::mock('MyClass');
+ $mock->shouldReceive('foo')->with('Hello');
+ $mock->foo('Goodbye'); // throw a NoMatchingExpectationException
+// this allows for setting up differing expectations based on the arguments provided to expected calls.
+
+// Argument matching with closures
+/**
+ * instead of providing a built-in mathcer for each argument, we can provide a closure that matches
+ * all passed arguments at once;
+ */
+
+ $mock = \Mockery::mock('MyClass');
+ $mock->shouldReceive('name_of_method')->withArgus(closure);
+
+/**
+ * The given closure receives all the arguments passed in the call to expected method. 
+ * in this way, this expectation only applies to method calls where passed arguments make the closure evaluate to true
+ */  
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('foo')->withArgs(function ($arg)){
+    if($arg %2 == 0){
+        return true;
+    }
+    return false;
+});
+$mock->foo(4); //matches the expectation
+$mock->foo(3); // throws a NoMatching ExpectationException
+
+// Argument matching with some of given values
+/**
+ * we can provide expected arguments that match passed arguments when mocked method is called
+ */
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')
+->withSomeOfArgs(arg1, arg2, arg3, ...);
+
+/**
+ * the given expected arguments order doesn't matter, check if expected values are included or not
+ * but type should be matched
+ */
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('foo')
+    ->withSomeOfArgs(1,2);
+
+$mock->foo(1,2,3); //matches the expectation
+$mock->foo(3,2,1); //matches the expectation (passed order doesn't matter)
+$mock->foo('1','2'); // throws a NoMatchingExpectationException (type should be matched)
+$mock->foo(3); // throws a NoMatchingExpectationException
+
+// Any, or no arguments
+/**
+ * we can declare that the expectation matches a method call regardless of what arguments are passed
+ */
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->withAnyArgs();
+
+/**
+ * this is set by default unless otherwise specified
+ * we can declare that the expectation matches method calls with zero arguments
+ */
+
+ $mock = \Mockery::mock('MyClass');
+ $mock->shouldReceive('name_of_method')->withNoArgs();
+
+//  Declaring return value Expectations
+/**
+ * for mock objects, we can tell Mockery what return values to return from the expected method calls.
+ * using andReturn() method
+ */ 
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->andReturn($value);
+
+/**
+ * this sets a value to be returned from the expected method call
+ * 
+ * it is possible to set up expectation for multiple return values. by providing a sequence of return values, 
+ * we tell mockery what value to return on every subsequent call to the method
+ */
+
+ $mock = \Mockery::mock('MyClass');
+ $mock->shouldReceive('name_of_method')->andReturn($value1, $value2, ...);
+// the first call will return $vlue1 and the second call will return $value2....
+
+/**
+ * if we call the method more times than the number of return values we declared, 
+ * Mockery will return the final value for any subsequent method call
+ */
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('foo')->andReturn(1,2,3);
+$mock->foo(); // int(1)
+$mock->foo(); // int(2)
+$mock->foo(); // int(3)
+$mock->foo(); // int(3)
+
+/**
+ * same can be achieved using the alternative syntax
+ */
+
+ $mock = \Mockery::mock('MyClass');
+ $mock->shouldReceive('name_of_method')->andReturnValues([$value1, $value2, ...]);
+
+/**
+ * it accpets a simple array instead of a list of parameters. the order of return is determined by 
+* the numerical index of the given array with the last array member being returned on all calls 
+* once previous return values are exhausted
+*
+* the following two options are primarily for communicationh with test readers:
+*/
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->andReturnNull();
+// or
+$mock->shouldReceive('name_of_method')->andReturn([null]);
+
+/**
+ * they mark the mock object method call as returning null or nothing
+ * 
+ * sometimes we want to calculate the return results of the method calls, based on the arguments
+ * passed to the method. we can do that with the andReturnUsing() method which accepts one or 
+ * more closure
+ */
+
+ $mock = \Mockery::mock('MyClass');
+ $mock->shouldReceive('name_of_method')->andReturnUsing(closure, ...);
+
+ 
+ public function testR(){
+    $mock = \Mockery::mock(MyClass::class);
+    $mock->shouldReceive('someMethod')
+         ->andReturnUsing(
+             function ($arg) {
+                 if ($arg > 0) {
+                     return 'Positive';
+                 } else {
+                     return 'Negative';
+                 }
+             },
+             function ($arg) {
+                 return $arg * 2;
+             },
+             function () {
+                 return 'Fallback';
+             }
+         );
+    
+    echo $result1 = $mock->someMethod(5);   // Returns "Positive"
+    echo $result2 = $mock->someMethod(-2);  // Returns "-4"
+    echo $result3 = $mock->someMethod(10);  // Returns "Fallback"
+    echo $result4 = $mock->someMethod(0);   // Returns "Fallback"
+    $this->assertSame('Positive', $result1);
+    $this->assertSame(-4, $result2);
+    $this->assertSame('Fallback', $result3);
+    $this->assertSame('Fallback', $result4);
+
+
+
+/**
+ * Closures can be queued by passing them as extra parameters as for andReturn() 
+ * Occasionally, it can be useful to echo back one of the arguments that a method is called, with. 
+ * in this case we can use the anrReturnArg() method; the argument to be returned is specified by 
+ * its index in the arguments list
+ */
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->andReturnArg(1); 
+// this return the second argument(index #1) from the list of arguments when the method is called.
+
+/**
+ * if we are mocking fluid interfaces, the following method will be helpful
+ */
+
+$mock = \Mockery::mock('MyClass');
+$mock->shouldReceive('name_of_method')->andReturnSelf();
+// it sets the return value to the mocked class name
+
+
+// Throwing Exceptions
+
+
+
