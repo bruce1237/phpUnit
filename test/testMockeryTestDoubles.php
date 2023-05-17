@@ -740,3 +740,41 @@ $mock->shouldReceive('name_of_method')->once()->with('arg1')->andReturn($value1)
     ->shouldReceive('name_of_method')->once()->with('arg3')->andReturn($value3);
 
 // Expectation Declaration Utilities
+/**
+ * Declares that this method is expected to be called in a specific order in relation to similary marked methods
+ */
+ordered()
+/**
+ * the order is dictated  by the order in which this modifier is actually used when setting up mocks
+ * 
+ * declares the method as belonging to an order group(which can be named or numbered). 
+ * methods within a group can be called in any order, but the ordered 
+ * calls from outside the group are ordered in relation to the grup
+ */
+ordered(group)
+/** 
+ * we can set up so that method1 is called before group1 which is in turn called before method2
+ * 
+ * when called prior to ordered() or ordered(group), it declares this ordering
+ * to apply across all mock objects(not just the current mock)
+*/
+globally()
+/**
+ * this allows for dictating order expectations across multiple mocks
+ * 
+ * the byDefault() marks an expectation as a default. default expectations are applied unless a
+ * non-default expectations is created
+ */
+beDefault()
+/**
+ * these later expectations immediately replace the previously defined default. 
+ * this is useful so we can setup default mocks in our unit test setup()
+ * and later tweak them in specific tests as needed
+ * 
+ * returns the current mock object from an expectation chain:
+ */
+getMock()
+/**
+ * useful where we prefer to keep mock setups as a single statement.
+ */
+$mock = \Mockery::mock('MyClass')->shouldReceive('foo')->anReturn(1)->getMocke()
