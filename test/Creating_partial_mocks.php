@@ -1,0 +1,2 @@
+<?php
+// Creating Partial Mocks
